@@ -100,29 +100,29 @@ for(let i = 1;i < width - 1;++i) {
 				hmap[0][i] = hmap[width - 1][i];
 			}
 
-fractal(0,hmap.length - 1,0,hmap[0].length - 1,50.0,0.65);
+fractal(0,width - 1,0,width - 1,50.0,0.65);
 
 let xs = [];
 let ys = [];
 			let zs = [];
 			let uv = [];
-for(let i = 0;i < hmap.length;++i) {
-	for(let j = 0;j < hmap[0].length;++j) {
-			let rad = Math.pow(j < hmap.length / 2 ? j / hmap.length : (hmap.length - 1 - j) / (hmap.length - 1),0.25);
-		xs.push((rad * hmap[i][j] + 1.0) * Math.cos(2 * Math.PI * i / (hmap.length - 1)));
-		xs.push((rad * hmap[i][j] + 1.0) * Math.sin(2 * Math.PI * i / (hmap.length - 1)));
+for(let i = 0;i < width;++i) {
+	for(let j = 0;j < width;++j) {
+			let rad = Math.pow(j < width / 2 ? j / width : (width - 1 - j) / (width - 1),0.25);
+		xs.push((rad * hmap[i][j] + 1.0) * Math.cos(2 * Math.PI * i / (width - 1)));
+		xs.push((rad * hmap[i][j] + 1.0) * Math.sin(2 * Math.PI * i / (width - 1)));
 		xs.push(6 * len * (j / hmap[i].length - 0.5));
 
 			zs.push(0,0,1);
-		if(i > 0) if(i < hmap.length) if(j > 0) if(j < hmap[0].length) {
-			ys.push(i * hmap.length + j);
-			ys.push((i - 1) * hmap.length + j);
-			ys.push((i - 1) * hmap.length + j - 1);
-			ys.push((i - 1) * hmap.length + j - 1);
-			ys.push(i * hmap.length + j - 1);
-			ys.push(i * hmap.length + j);
+		if(i > 0) if(i < width) if(j > 0) if(j < hmap[0].length) {
+			ys.push(i * width + j);
+			ys.push((i - 1) * width + j);
+			ys.push((i - 1) * width + j - 1);
+			ys.push((i - 1) * width + j - 1);
+			ys.push(i * width + j - 1);
+			ys.push(i * width + j);
 		}
-			uv.push(i / (hmap.length - 1),j / (hmap[0].length - 1));
+			uv.push(i / (width - 1),j / (width - 1));
 	}
 }
 
