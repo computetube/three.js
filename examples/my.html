@@ -88,7 +88,14 @@ hmap[0][0] = len;
 hmap[hmap.length - 1][hmap.length - 1] = len;
 hmap[hmap.length - 1][0] = len;
 hmap[0][hmap.length - 1] = len;
-fractal(0,hmap.length - 1,0,hmap[0].length - 1,50.0,0.5);
+fractal(0,hmap.length - 1,0,hmap[0].length - 1,50.0,0.65);
+for(let i = 1;i < hmap.length - 1;++i) {
+	for(let j = 1;j < hmap[0].length-1;++j) {
+			hmap[i][j] = null;
+			}
+			}
+
+fractal(0,hmap.length - 1,0,hmap[0].length - 1,50.0,0.65);
 
 let xs = [];
 let ys = [];
