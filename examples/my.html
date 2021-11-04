@@ -57,17 +57,7 @@ const indicesOfFaces = [
     4,5,6,    6,7,4
 ];
 
-let width = 50;
-
-let hmap = [];
-for(let y = 0;y < width;++y) {
-	let xs = [];
-	for(let x = 0;x < width;++x) {
-		xs.push(null);
-	}
-	hmap.push(xs);
-}
-function fractal(x0,x1,y0,y1,amp,decay) {
+function fractal(hmap,x0,x1,y0,y1,amp,decay) {
 	let xx = Math.round((x0 + x1) / 2);
 	let yy = Math.round((y0 + y1) / 2);
 
@@ -78,34 +68,44 @@ function fractal(x0,x1,y0,y1,amp,decay) {
 	if(hmap[xx][yy] == null) hmap[xx][yy] = (hmap[x0][y0] + hmap[x1][y0] + hmap[x0][y1] + hmap[x1][y1]) / 4 + amp * Math.random();
 
 			if(x0 != xx && x1 != xx && y0 != yy && y1 != yy) {
-		fractal(x0,xx,y0,yy,-amp * decay,decay);
-		fractal(xx,x1,y0,yy,-amp * decay,decay);
-		fractal(x0,xx,yy,y1,-amp * decay,decay);
-		fractal(xx,x1,yy,y1,-amp * decay,decay);
+		fractal(hmap,x0,xx,y0,yy,-amp * decay,decay);
+		fractal(hmap,xx,x1,y0,yy,-amp * decay,decay);
+		fractal(hmap,x0,xx,yy,y1,-amp * decay,decay);
+		fractal(hmap,xx,x1,yy,y1,-amp * decay,decay);
 	}
 }
-			let len = 50;
-hmap[0][0] = len;
-hmap[width - 1][width - 1] = len;
-hmap[width - 1][0] = len;
-hmap[0][width - 1] = len;
-fractal(0,width - 1,0,width - 1,50.0,0.65);
-for(let i = 1;i < width - 1;++i) {
-	for(let j = 1;j < width - 1;++j) {
+
+function doener(width,decay) {
+	let hmap = [];
+	for(let y = 0;y < width;++y) {
+		let xs = [];
+		for(let x = 0;x < width;++x) {
+			xs.push(null);
+		}
+		hmap.push(xs);
+	}
+	let len = 50;
+	hmap[0][0] = len;
+	hmap[width - 1][width - 1] = len;
+	hmap[width - 1][0] = len;
+	hmap[0][width - 1] = len;
+	fractal(hmap,0,width - 1,0,width - 1,50.0,decay);
+	for(let i = 1;i < width - 1;++i) {
+		for(let j = 1;j < width - 1;++j) {
 			hmap[i][j] = null;
-			}
-			}
-			for(let i = 0;i < width;++i) {
-				hmap[i][0] = hmap[i][width - 1];
-				hmap[0][i] = hmap[width - 1][i];
-			}
+		}
+	}
+	for(let i = 0;i < width;++i) {
+		hmap[i][0] = hmap[i][width - 1];
+		hmap[0][i] = hmap[width - 1][i];
+	}
 
-fractal(0,width - 1,0,width - 1,50.0,0.65);
+	fractal(hmap,0,width - 1,0,width - 1,50.0,decay);
 
-let xs = [];
-let ys = [];
-			let zs = [];
-			let uv = [];
+	let xs = [];
+	let ys = [];
+	let zs = [];
+	let uv = [];
 for(let i = 0;i < width;++i) {
 	for(let j = 0;j < width;++j) {
 			let rad = Math.pow(j < width / 2 ? j / width : (width - 1 - j) / (width - 1),0.25);
@@ -134,14 +134,12 @@ geometry.setAttribute( 'position', new THREE.Float32BufferAttribute(xs, 3 ) );
 geometry.setAttribute( 'uv', new THREE.Float32BufferAttribute(uv, 2 ) );
 geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute(zs, 3 ) );
 			geometry.computeVertexNormals();
-object = new THREE.Mesh(geometry,material);
+	return geometry;
+}
+
+object = new THREE.Mesh(doener(50,0.55),material);
 object.position.set(0,0,0);
 object.scale.set(2,2,2);
-
-console.log(xs);
-console.log(hmap);
-
-
 scene.add(object);
 
 
