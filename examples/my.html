@@ -93,6 +93,7 @@ fractal(0,hmap.length - 1,0,hmap[0].length - 1,50.0,0.5);
 let xs = [];
 let ys = [];
 			let zs = [];
+			let uv = [];
 for(let i = 0;i < hmap.length;++i) {
 	for(let j = 0;j < hmap[0].length;++j) {
 			let rad = Math.pow(j < hmap.length / 2 ? j / hmap.length : (hmap.length - 1 - j) / (hmap.length - 1),0.25);
@@ -109,6 +110,7 @@ for(let i = 0;i < hmap.length;++i) {
 			ys.push(i * hmap.length + j - 1);
 			ys.push(i * hmap.length + j);
 		}
+			uv.push(i / (hmap.length - 1),j / (hmap[0].length - 1));
 	}
 }
 
@@ -116,6 +118,7 @@ for(let i = 0;i < hmap.length;++i) {
 const geometry = new THREE.BufferGeometry();
 			geometry.setIndex( ys );
 geometry.setAttribute( 'position', new THREE.Float32BufferAttribute(xs, 3 ) );
+geometry.setAttribute( 'uv', new THREE.Float32BufferAttribute(uv, 2 ) );
 geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute(zs, 3 ) );
 			geometry.computeVertexNormals();
 object = new THREE.Mesh(geometry,material);
