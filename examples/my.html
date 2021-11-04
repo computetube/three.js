@@ -109,6 +109,7 @@ let ys = [];
 for(let i = 0;i < width;++i) {
 	for(let j = 0;j < width;++j) {
 			let rad = Math.pow(j < width / 2 ? j / width : (width - 1 - j) / (width - 1),0.25);
+			rad = Math.sqrt(1 - Math.pow(j / (width - 1) * 2 - 1,2));
 		xs.push((rad * hmap[i][j] + 1.0) * Math.cos(2 * Math.PI * i / (width - 1)));
 		xs.push((rad * hmap[i][j] + 1.0) * Math.sin(2 * Math.PI * i / (width - 1)));
 		xs.push(6 * len * (j / hmap[i].length - 0.5));
